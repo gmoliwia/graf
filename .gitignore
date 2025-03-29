@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/graf/.vs/graf
+/graf/graf/x64/Debug
+/graf/x64/Debug
+/plik.c
+/graf/graf.vcxproj.user
+/graf/graf.vcxproj.filters
+/graf/graf.vcxproj
+/graf/graf.sln
