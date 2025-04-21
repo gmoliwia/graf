@@ -1,17 +1,20 @@
-#pragma once
-typedef struct
+typedef struct Wezel
 {
-    int liczbaWierszy;
-    int liczbaKolumn;
-    int liczbaWezlow;
-    struct wezel* tablicaWezlow;
-} Graf;
+    int numer;
+    int wiersz, kolumna;
+    int liczbaWezlowPowiazanych;
+    int* listaPowiazan;
+} Wezel;
 
 typedef struct
 {
-    int numer;
-    struct wezel* lista;
-} wezel;
+    int liczbaWezlow;
+    struct Wezel* wezly;
+    int liczbaWierszy;
+    int liczbaKolumn;
+    int* tablicaWezlow;
+} Graf;
+
 
 Graf * wczytajGraf(const char* nazwaPliku);
 
