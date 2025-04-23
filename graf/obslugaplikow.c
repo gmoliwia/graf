@@ -190,6 +190,41 @@ Graf* wczytajGraf(const char* nazwaPliku)
     } else printf("Blad: Nie mozna otworzyc pliku %s\n", nazwaPliku);
     return NULL;
 
+
+    void saveText(const char* nazwaPliku, const Graf* graf) {
+    FILE* plik = fopen(nazwaPliku, "w");
+    if (!plik) {
+        printf("Błąd: Nie można otworzyć pliku do zapisu %s\n", nazwaPliku);
+        return;
+    }
+
+    // Zapis liczby kolumn i wierszy
+    fprintf(plik, "%d\n", graf->liczbaKolumn);
+    fprintf(plik, "%d\n", graf->liczbaWierszy);
+
+    // Zapis połączeń między węzłami
+    for (int i = 0; i < graf->liczbaWierszy; i++) {
+        fprintf(plik, "%d %d\n", graf->tablicaWezlow[i].a, graf->tablicaWezlow[i].b);
+    }
+
+    fclose(plik);
+    printf("Graf został zapisany do pliku tekstowego: %s\n", nazwaPliku);
+}
+
+void saveBin(const char* nazwaPliku, const Graf* graf) {
+    FILE* plik = fopen(nazwaPliku, "wb");
+    if (!plik) {
+        printf("Błąd: Nie można otworzyć pliku binarnego do zapisu %s\n", nazwaPliku);
+        return;
+    }
+
+    fwrite(&graf->liczbaKolumn, sizeof(int), 1, plik);
+    fwrite(&graf->liczbaWierszy, sizeof(int), 1, plik);
+    fwrite(graf->tablicaWezlow, sizeof(wezel), graf->liczbaWierszy, plik);
+
+    fclose(plik);
+    printf("Graf został zapisany do pliku binarnego: %s\n", nazwaPliku);
+}
 }
 
 
