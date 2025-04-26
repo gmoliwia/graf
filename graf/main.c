@@ -3,6 +3,7 @@ int main()
 {
 	wczytajGraf("graftestsigma.txt");
 
+    /*
 	if (czySpojny(g)) {
         printf("Graf jest spójny.\n");
     } else {
@@ -16,6 +17,7 @@ int main()
     free(g->tablicaWezlow);
     free(g);
     return 0;
-
+    */
+    void podzielGrafBFSZaawansowany(graf,2, 10, int* przypisania)
 
 }

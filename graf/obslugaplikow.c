@@ -86,12 +86,11 @@ Graf* wczytajGraf(const char* nazwaPliku)
                         workbuf[cnt] = '\0';
                         cnt = 0;
                         result = KonwertujElement(workbuf, &val);
-                        graf->wezly[index++].kolumna=val;
-                    }
-                    else workbuf[cnt++] = bufor[i];
+                        graf->wezly[index++].kolumna = val;
+                    } else workbuf[cnt++] = bufor[i];
                 }
 
-                graf->liczbaWierszy = PoliczElementy(bufor2)-1;
+                graf->liczbaWierszy = PoliczElementy(bufor2) - 1;
                 printf("wiersze: %d\n", graf->liczbaWierszy);
                 printf("kolumny: %d\n", graf->liczbaKolumn);
                 printf("wezly: %d\n", graf->liczbaWezlow);
@@ -120,8 +119,8 @@ Graf* wczytajGraf(const char* nazwaPliku)
                                 for (index = a; index < b; index++)
                                 {
                                     graf->wezly[index].wiersz = row;
-                                    graf->tablicaWezlow[graf->wezly[index].wiersz*graf->liczbaKolumn + graf->wezly[index].kolumna] = index;
-                                printf("wiersz %d, kolumna: %d, index: %d\n", graf->wezly[index].wiersz, graf->wezly[index].kolumna, index);
+                                    graf->tablicaWezlow[graf->wezly[index].wiersz * graf->liczbaKolumn + graf->wezly[index].kolumna] = index;
+                                    printf("wiersz %d, kolumna: %d, index: %d\n", graf->wezly[index].wiersz, graf->wezly[index].kolumna, index);
                                 }
                                 a = b;
                                 row++;
@@ -131,14 +130,14 @@ Graf* wczytajGraf(const char* nazwaPliku)
                     DumpTable(graf);
                     fgets(bufor, sizeof(bufor), plik);
                     fgets(bufor2, sizeof(bufor2), plik);
-                    int edgesCount = PoliczElementy(bufor) - 1;
+                    int edgesCount = PoliczElementy(bufor);
                     int* edges = calloc(1, edgesCount * sizeof(int));
                     if (edges)
                     {
                         int cnt = 0;
                         int index = 0;
                         int firstLoop = 1;
-                        int edgeIndex= 0;
+                        int edgeIndex = 0;
                         Wezel* wezel;
 
                         for (int i = 0; bufor[i] != '\0'; i++)
@@ -152,9 +151,10 @@ Graf* wczytajGraf(const char* nazwaPliku)
                             } else workbuf[cnt++] = bufor[i];
                         }
                         workbuf[0] = '\0';
-                        for (int i = 0;bufor2[i] != '\0';i++)
+                        int i = 0;
+                        do 
                         {
-                            if (bufor2[i] == ';' || bufor2[i] == '\n')
+                            if (bufor2[i] == ';' || bufor2[i] == '\0')
                             {
                                 workbuf[cnt] = '\0';
                                 cnt = 0;
@@ -177,7 +177,8 @@ Graf* wczytajGraf(const char* nazwaPliku)
                                     a = b;
                                 }
                             } else workbuf[cnt++] = bufor2[i];
-                        }
+                        } while (bufor2[i++] != '\0');
+
                         free(edges);
                     } else printf("Blad: Nie udalo sie zaalokowac pamieci dla grafu.\n");
                     free(graf->tablicaWezlow);
@@ -189,9 +190,11 @@ Graf* wczytajGraf(const char* nazwaPliku)
         fclose(plik);
     } else printf("Blad: Nie mozna otworzyc pliku %s\n", nazwaPliku);
     return NULL;
+}
 
 
-    void saveText(const char* nazwaPliku, const Graf* graf) {
+    
+    /*void saveText(const char* nazwaPliku, const Graf* graf) {
     FILE* plik = fopen(nazwaPliku, "w");
     if (!plik) {
         printf("Błąd: Nie można otworzyć pliku do zapisu %s\n", nazwaPliku);
@@ -226,6 +229,7 @@ void saveBin(const char* nazwaPliku, const Graf* graf) {
     printf("Graf został zapisany do pliku binarnego: %s\n", nazwaPliku);
 }
 }
+*/
 
 
 
