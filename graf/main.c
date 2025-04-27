@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "graf.h"
 #include<stdio.h>
 #include <stdlib.h>
