@@ -1,38 +1,39 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "graf.h"
-int main(int argc, char*argv[])
+#include<stdio.h>
+#include <stdlib.h>
+#include<math.h>
+int main()
 {
+    Graf* graf = wczytajGraf("graftestsigma.txt"); // <- przypisz graf do zmiennej
+    if (!graf) {
+        printf("Nie udało się wczytać grafu.\n");
+        return 1;
+    }
 
-   
-	Graf* graf = wczytajGraf("graftestsigma.txt");
+    int* przypisania = malloc(sizeof(int) * graf->liczbaWezlow); // <- zaalokuj przypisania
+    if (!przypisania) {
+        printf("Blad alokacji przypisan.\n");
+        return 1;
+    }
+    for (int i = 0; i < graf->liczbaWezlow; i++) przypisania[i] = -1; // inicjalizuj
 
-    printf("Wczytano graf z pliku\n");
+    podzielGrafBFSZaawansowany(graf, 2, 10.0, przypisania);  // <- wywołanie funkcji OK
 
- 
+    // wyświetlenie wyników
+    for (int i = 0; i < graf->liczbaWezlow; i++) {
+        printf("Wezel %d przypisany do czesci %d\n", i, przypisania[i]);
+    }
 
-    // Parametry podziału
-    int LiczbaPodzialow = 3; // Podział na 3 części
-    int margines = 10;       // Margines 10%
 
-    // Podział grafu
-
-    // Zapis grafu do pliku
-    zapiszGraf("podzielony_graf.txt", podzielonyGraf);
-    printf("Podzielony graf zostal zapisany do pliku: %s\n", "podzielony_graf.txt");
-
-     zapiszGraf("test1.txt", graf);
-
-    // Czyszczenie pamięci
+    free(przypisania);
+    for (int i = 0; i < graf->liczbaWezlow; i++) {
+        free(graf->wezly[i].listaPowiazan);
+    }
     free(graf->wezly);
+    free(graf->tablicaWezlow);
     free(graf);
-    free(podzielonyGraf->wezly);
-    free(podzielonyGraf);
-
-  
-    
 
     return 0;
 }
-
-
