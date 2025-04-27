@@ -178,8 +178,8 @@ Graf* wczytajGraf(const char* nazwaPliku)
                                 }
                             } else workbuf[cnt++] = bufor2[i];
                         } while (bufor2[i++] != '\0');
-
                         free(edges);
+                        return graf;
                     } else printf("Blad: Nie udalo sie zaalokowac pamieci dla grafu.\n");
                     free(graf->tablicaWezlow);
                 } else printf("Blad: Nie udalo sie zaalokowac pamieci dla tablicy wezlow.\n");
@@ -193,7 +193,22 @@ Graf* wczytajGraf(const char* nazwaPliku)
 }
 
 
+
+void zapiszGraf(const char* nazwaPliku, Graf* graf) {
+    FILE* plik = fopen(nazwaPliku, "w");
+    if (!plik) {
+        printf("Blad: Nie mozna otworzyc pliku %s do zapisu.\n", nazwaPliku);
+        return;
+    }
+
+    // Zapis maksymalnej liczby węzłów w wierszu
+    fprintf(plik, "%d\n", graf->liczbaKolumn);
+
     
+
+    fclose(plik);
+    printf("Graf zostal zapisany do pliku %s.\n", nazwaPliku);
+}
     /*void saveText(const char* nazwaPliku, const Graf* graf) {
     FILE* plik = fopen(nazwaPliku, "w");
     if (!plik) {

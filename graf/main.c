@@ -1,23 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include "graf.h"
-int main()
+int main(int argc, char*argv[])
 {
-	wczytajGraf("graftestsigma.txt");
 
-    /*
-	if (czySpojny(g)) {
-        printf("Graf jest spójny.\n");
-    } else {
-        printf("Graf NIE jest spójny.\n");
-    }
+   
+	Graf* graf = wczytajGraf("graftestsigma.txt");
 
-    saveText("wynik.txt", g);
-    saveBin("wynik.bin", g);
+    printf("Wczytano graf z pliku\n");
 
-    // Zwolnij pamięć itp. jak chcesz
-    free(g->tablicaWezlow);
-    free(g);
+ 
+
+    // Parametry podziału
+    int LiczbaPodzialow = 3; // Podział na 3 części
+    int margines = 10;       // Margines 10%
+
+    // Podział grafu
+
+    // Zapis grafu do pliku
+    zapiszGraf("podzielony_graf.txt", podzielonyGraf);
+    printf("Podzielony graf zostal zapisany do pliku: %s\n", "podzielony_graf.txt");
+
+     zapiszGraf("test1.txt", graf);
+
+    // Czyszczenie pamięci
+    free(graf->wezly);
+    free(graf);
+    free(podzielonyGraf->wezly);
+    free(podzielonyGraf);
+
+  
+    
+
     return 0;
-    */
-    void podzielGrafBFSZaawansowany(graf,2, 10, int* przypisania)
-
 }
+
+
