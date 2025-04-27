@@ -1,6 +1,9 @@
 #include <stddef.h>
 #include <stdbool.h>
 #include "graf.h"
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
 
 
 Graf* PodzielGraf(Graf* graf, Graf* PodzielonyGraf, int LiczbaPodzialow, int margines)

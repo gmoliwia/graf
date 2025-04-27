@@ -1,23 +1,37 @@
 #include "graf.h"
+#include<stdio.h>
+#include <stdlib.h>
+#include<math.h>
 int main()
 {
-	wczytajGraf("graftestsigma.txt");
-
-    /*
-	if (czySpojny(g)) {
-        printf("Graf jest spójny.\n");
-    } else {
-        printf("Graf NIE jest spójny.\n");
+    Graf* graf = wczytajGraf("graftestsigma.txt"); // <- przypisz graf do zmiennej
+    if (!graf) {
+        printf("Nie udało się wczytać grafu.\n");
+        return 1;
     }
 
-    saveText("wynik.txt", g);
-    saveBin("wynik.bin", g);
+    int* przypisania = malloc(sizeof(int) * graf->liczbaWezlow); // <- zaalokuj przypisania
+    if (!przypisania) {
+        printf("Blad alokacji przypisan.\n");
+        return 1;
+    }
+    for (int i = 0; i < graf->liczbaWezlow; i++) przypisania[i] = -1; // inicjalizuj
 
-    // Zwolnij pamięć itp. jak chcesz
-    free(g->tablicaWezlow);
-    free(g);
+    podzielGrafBFSZaawansowany(graf, 2, 10.0, przypisania);  // <- wywołanie funkcji OK
+
+    // wyświetlenie wyników
+    for (int i = 0; i < graf->liczbaWezlow; i++) {
+        printf("Wezel %d przypisany do czesci %d\n", i, przypisania[i]);
+    }
+
+
+    free(przypisania);
+    for (int i = 0; i < graf->liczbaWezlow; i++) {
+        free(graf->wezly[i].listaPowiazan);
+    }
+    free(graf->wezly);
+    free(graf->tablicaWezlow);
+    free(graf);
+
     return 0;
-    */
-    void podzielGrafBFSZaawansowany(graf,2, 10, int* przypisania)
-
 }
