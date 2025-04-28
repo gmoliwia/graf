@@ -228,6 +228,7 @@ void zapiszGraf(const char* nazwaPliku, Graf* graf,  int liczbaPodzialow, int* p
     if (plik)
     {
 
+        printf("Zapisuje graf w formacie tekstowym do pliku %s.\n", nazwaPliku);
   
         fprintf(plik, "%d\n", graf->liczbaKolumn);
 
@@ -319,5 +320,88 @@ void zapiszGraf(const char* nazwaPliku, Graf* graf,  int liczbaPodzialow, int* p
 
 void zapiszGrafBin(const char* nazwaPliku, Graf* graf, int liczbaPodzialow, int* przypisania)
 {
+    int eol = -1;
 
+    FILE* plik = fopen(nazwaPliku, "wb");
+    if (plik)
+    {
+        printf("Zapisuje graf w formacie binarnym do pliku %s.\n", nazwaPliku);
+        fwrite(&graf->liczbaKolumn, sizeof(int), 1, plik);
+
+        for (int i = 0; i < graf->liczbaWezlow; i++)
+        {
+            fwrite(&graf->wezly[i].kolumna, sizeof(int), 1, plik);
+        }
+        fwrite(&eol, sizeof(int), 1, plik);
+
+  
+        int previousIndex = 0;
+        int currentIndex = 0;
+        for (int i = 0; i < graf->liczbaWierszy; i++)
+        {
+            for (int j = 0; j < graf->liczbaKolumn; j++)
+            {
+                int index = i * graf->liczbaKolumn + j;
+                if (graf->tablicaWezlow[index] != -1)
+                {
+                    currentIndex = graf->tablicaWezlow[index] + 1;
+                }
+            }
+            fwrite(&previousIndex, sizeof(int), 1, plik);
+            previousIndex = currentIndex;
+        }
+        fwrite(&previousIndex, sizeof(int), 1, plik);
+        fwrite(&eol, sizeof(int), 1, plik);
+
+   
+        for (int i = 0; i < graf->liczbaWezlow; i++)
+        {
+            if (graf->wezly[i].liczbaWezlowPowiazanych>0)
+                fwrite(&i, sizeof(int), 1, plik);
+            for (int j = 0; j < graf->wezly[i].liczbaWezlowPowiazanych; j++)
+            {
+                fwrite(&graf->wezly[i].listaPowiazan[j], sizeof(int), 1, plik);
+            }
+        }
+        fwrite(&eol, sizeof(int), 1, plik);
+
+    
+        if (przypisania)
+        {
+            for (int a = 0; a < liczbaPodzialow;a++)
+            {
+                int edgeIndex = 0;
+
+                for (int i = 0; i < graf->liczbaWezlow; i++)
+                {
+                    if (przypisania[i] == a)
+                    {
+                        if (graf->wezly[i].listaPowiazan)
+                        {
+                            fwrite(&edgeIndex, sizeof(int), 1, plik);
+                            edgeIndex += graf->wezly[i].liczbaWezlowPowiazanych + 1;
+                        }
+                    }
+                }
+                fwrite(&edgeIndex, sizeof(int), 1, plik);
+                fwrite(&eol, sizeof(int), 1, plik);
+            }
+        } else
+        {
+            int edgeIndex = 0;
+            for (int i = 0; i < graf->liczbaWezlow; i++)
+            {
+                if (graf->wezly[i].listaPowiazan)
+                {
+                    fwrite(&edgeIndex, sizeof(int), 1, plik);
+                    edgeIndex += graf->wezly[i].liczbaWezlowPowiazanych + 1;
+                }
+            }
+            fwrite(&edgeIndex, sizeof(int), 1, plik);
+            fwrite(&eol, sizeof(int), 1, plik);
+        }
+
+        fclose(plik);
+        printf("Graf zostal zapisany do pliku %s.\n", nazwaPliku);
+    } else printf("Blad: Nie mozna otworzyc pliku %s do zapisu.\n", nazwaPliku);
 }
